@@ -4,6 +4,7 @@ body
     width: 50%;
     right: 50%;
     transform: translateX(50%);
+    color: white;
 }
 
 #content {

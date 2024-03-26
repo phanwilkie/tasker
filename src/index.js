@@ -71,7 +71,6 @@ storeProject('project1', project1);
 storeProject('project2', project2);
 
 function init() {
-    //todo load list of all project names in nav bar
     renderNavBar();
 
     //todo default to the default project
@@ -81,8 +80,15 @@ function init() {
     //todo highlight project that's being loaded
 }
 
+const nav = document.querySelector('#nav');
+
 function renderNavBar() {
-    console.table(loadProjects());
+    for (let i = 0; i < loadProjects().length; i++) {
+        const projectNav = document.createElement('div');
+        projectNav.textContent = loadProjects()[i];
+        projectNav.className = 'nav-item';
+        nav.appendChild(projectNav);
+    }
 };
 
 init();
