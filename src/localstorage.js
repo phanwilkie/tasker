@@ -21,13 +21,12 @@ export default function getProjects() {
     return { projectList, defaultProject };
 }
 
-export function loadTasks(key) {
-    // let taskList = [];
+export function loadTasks(projectName) {
     
-    stringObj = localStorage.getItem(key);
-    parsedObj = JSON.parse(stringObj);
-    tasks = parsedObj.task;
-    taskCount = Object.keys(parsedObj.task).length;
+    const stringObj = localStorage.getItem(projectName);
+    const parsedObj = JSON.parse(stringObj);
+    const tasks = parsedObj.task;
+    const taskCount = Object.keys(parsedObj.task).length;
 
-    return tasks, taskCount;
+    return { tasks, taskCount };
 }

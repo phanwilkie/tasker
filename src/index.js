@@ -72,39 +72,38 @@ storeProject('project2', project2);
 
 
 function renderProjectNav() {
-    //todo split out argument between first load vs manual selection
     const nav = document.querySelector('#nav');
     for (let i = 0; i < getProjects().projectList.length; i++) {
         const projectNav = document.createElement('div');
         projectNav.textContent = getProjects().projectList[i];
         projectNav.className = 'nav-item';
         nav.appendChild(projectNav);
-        // console.log('dom text content ' +projectNav.textContent);
     }
-
-    // console.log(getProjects().projectList);
-    console.log('default project is ' + getProjects().defaultProject);
-    //todo get project key of default project
-    //find default
-    
-    
-    // renderBodyTasks(key);
-    //todo indicate which is the default project
+    return getProjects().defaultProject;
 };
 
-// function renderBodyTasks(key) {
-//     const taskList = document.querySelector('#tasklist');
-//     loadTasks(key);
-//     console.table(tasks);
+function renderBodyTasks(projectName) {
+    // key = 'project1';
+    const taskDiv = document.querySelector('#tasklist');
+    const taskList = loadTasks(projectName).tasks;
+    const taskCount = loadTasks(projectName).taskCount;
+
+    //clear parent DOM
+
+    // console.log(loadTasks(projectName));
+    for (let i = 0; i < taskCount; i++) {
+        //todo create grid to render all task properties
+        const task = document.createElement('div');
+        task.textContent = taskList[i].description;
+        task.className = 'task-item';
+        taskDiv.appendChild(task);
+    }
     
-// }
+}
 
 function init() {
     renderProjectNav();
-    // renderBodyTasks(loadProjects.defau);
-    //todo default to the default project
-
-    //todo load all tasks associated with the selected project
+    renderBodyTasks(getProjects().defaultProject);
 
     //todo highlight project that's being loaded
 }
