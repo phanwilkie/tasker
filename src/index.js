@@ -2,7 +2,7 @@ import './style.css';
 import { compareAsc, format } from "date-fns";
 
 import Project from './project.js';
-import loadProjects, { storeProject } from './localstorage.js';
+import getProjects, { loadTasks, storeProject } from './localstorage.js';
 
 let project1 = new Project('project1','Default', true, true, [
     {
@@ -70,9 +70,38 @@ localStorage.clear();
 storeProject('project1', project1);
 storeProject('project2', project2);
 
-function init() {
-    renderNavBar();
 
+function renderProjectNav() {
+    //todo split out argument between first load vs manual selection
+    const nav = document.querySelector('#nav');
+    for (let i = 0; i < getProjects().projectList.length; i++) {
+        const projectNav = document.createElement('div');
+        projectNav.textContent = getProjects().projectList[i];
+        projectNav.className = 'nav-item';
+        nav.appendChild(projectNav);
+        // console.log('dom text content ' +projectNav.textContent);
+    }
+
+    // console.log(getProjects().projectList);
+    console.log('default project is ' + getProjects().defaultProject);
+    //todo get project key of default project
+    //find default
+    
+    
+    // renderBodyTasks(key);
+    //todo indicate which is the default project
+};
+
+// function renderBodyTasks(key) {
+//     const taskList = document.querySelector('#tasklist');
+//     loadTasks(key);
+//     console.table(tasks);
+    
+// }
+
+function init() {
+    renderProjectNav();
+    // renderBodyTasks(loadProjects.defau);
     //todo default to the default project
 
     //todo load all tasks associated with the selected project
@@ -80,15 +109,5 @@ function init() {
     //todo highlight project that's being loaded
 }
 
-const nav = document.querySelector('#nav');
-
-function renderNavBar() {
-    for (let i = 0; i < loadProjects().length; i++) {
-        const projectNav = document.createElement('div');
-        projectNav.textContent = loadProjects()[i];
-        projectNav.className = 'nav-item';
-        nav.appendChild(projectNav);
-    }
-};
 
 init();
