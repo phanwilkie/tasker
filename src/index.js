@@ -70,7 +70,6 @@ localStorage.clear();
 storeProject('project1', project1);
 storeProject('project2', project2);
 
-
 function renderProjectNav() {
     const nav = document.querySelector('#nav');
     for (let i = 0; i < getProjects().projectList.length; i++) {
@@ -83,22 +82,54 @@ function renderProjectNav() {
 };
 
 function renderBodyTasks(projectName) {
-    // key = 'project1';
-    const taskDiv = document.querySelector('#tasklist');
+    const taskListDiv = document.querySelector('#tasklist');
     const taskList = loadTasks(projectName).tasks;
     const taskCount = loadTasks(projectName).taskCount;
 
-    //clear parent DOM
-
-    // console.log(loadTasks(projectName));
     for (let i = 0; i < taskCount; i++) {
-        //todo create grid to render all task properties
-        const task = document.createElement('div');
-        task.textContent = taskList[i].description;
-        task.className = 'task-item';
-        taskDiv.appendChild(task);
-    }
-    
+        //render taskDiv under the parent of TaskListDiv
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task';
+        if (taskList[i].isImportant) {
+            taskDiv.className += ' important';
+        }
+        taskListDiv.appendChild(taskDiv);
+
+            //render desc div
+            const taskDescDiv = document.createElement('div');
+            taskDescDiv.className = 'task-desc-div';
+            taskDiv.appendChild(taskDescDiv);
+        
+                //Add task desc checklist
+                const taskDescInput = document.createElement('input');
+                taskDescInput.type = 'checkbox';
+                taskDescInput.id = 'task'+i;
+                taskDescInput.name = 'task'+i;
+                taskDescDiv.appendChild(taskDescInput);
+                
+                //Add task desc label
+                const taskDescLabel = document.createElement('label');
+                taskDescLabel.textContent = taskList[i].description;
+                taskDescLabel.for = 'task'+i;
+                taskDescDiv.appendChild(taskDescLabel);
+
+            //Render due date div
+            const taskDueDivTarget = document.createElement('div');
+            taskDueDivTarget.className = 'task-due-div';
+            taskDueDivTarget.textContent = taskList[i].dueDate;
+            taskDiv.appendChild(taskDueDivTarget);
+
+            //Render More Options div
+            const taskOptionDivTarget = document.createElement('div');
+            taskOptionDivTarget.className = 'task-option-div';
+            taskDiv.appendChild(taskOptionDivTarget);
+
+                const taskOptionButton = document.createElement('button');
+                taskOptionButton.textContent = '...';
+                taskOptionButton.class = 'btn-option';
+                taskOptionButton.id = 'btn-option-'+i;
+                taskOptionDivTarget.appendChild(taskOptionButton);
+    }   
 }
 
 function init() {

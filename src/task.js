@@ -8,4 +8,6 @@ export default class Task {
         this.isCompleted = isCompleted;
         this.isImportant = isImportant;
     }
+
+    //todo add some methods
 }
