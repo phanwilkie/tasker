@@ -10,7 +10,9 @@
     <header></header>
     <div id="content">
         <div id="header"><h1>taskR</h1></div>
-        <div id="nav"></div>
+        <div id="nav">
+            <div class="new-project"><button id="btn-new-project">+</button></div>
+        </div>
         <div id="subnav">
             <nav>
                 <button>today</button>
@@ -19,7 +21,29 @@
             </nav>
         </div>
         <div id="tasklist"></div>
-        <div id="footer"></div>
+        <div id="footer"><button>New Task</button></div>
+    </div>
+    <!-- Add New Project modal -->
+    <div id="new-project-modal">
+        <div class="modal-content">
+            <span id="close-modal-project">&times;</span>
+            <h2>Add new project</h2>
+            <form action="" method="post" id="form-add-project">
+                <div class="form-inputs">
+                    <input name="project-name" id="project-name"/>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" id="btn-save-project">Save</button>
+                    <button type="button" id="btn-cancel-project">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="new-task-modal">
+        <div class="modal-content">
+            <span id="close-modal-task">&times;</span>
+            <h2>Add new task</h2>
+        </div>
     </div>
 </body>
 </html>

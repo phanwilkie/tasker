@@ -3,6 +3,7 @@ import { compareAsc, format } from "date-fns";
 
 import Project from './project.js';
 import getProjects, { loadTasks, storeProject } from './localstorage.js';
+import { addProject, renderProjectForm, saveProjectForm } from './form-project.js';
 
 let project1 = new Project('project1','Default', true, true, [
     {
@@ -135,9 +136,12 @@ function renderBodyTasks(projectName) {
 function init() {
     renderProjectNav();
     renderBodyTasks(getProjects().defaultProject);
-
+    addProject();
     //todo highlight project that's being loaded
+    //add event listeners
 }
 
-
 init();
+
+//todo add form when adding new project
+//todo add form when creating/editing task
