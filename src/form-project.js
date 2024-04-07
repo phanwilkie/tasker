@@ -1,3 +1,6 @@
+//todo cache doms
+//todo revealing pattern
+
 export function addProject() {
     const btnNewProject = document.querySelector('#btn-new-project');
     btnNewProject.addEventListener('click', renderProjectForm);
@@ -5,6 +8,7 @@ export function addProject() {
 }
 
 //edit project
+
 
 export function renderProjectForm(key) {
     //TODO figure out how to make this function load existing using argument
@@ -14,7 +18,7 @@ export function renderProjectForm(key) {
     newProjectModal.style.display = 'block';
     
     //SAVE NEW PROJECT INTERACTION
-    
+
     
     
     //CLOSE MODAL INTERACTION

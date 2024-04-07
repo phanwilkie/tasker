@@ -11,14 +11,15 @@ export default function getProjects() {
         const key = localStorage.key(i);
         const stringObj = localStorage.getItem(key);
         const parsedObj = JSON.parse(stringObj);
-        projectList.push(key);
+        projectList.push(parsedObj);
         
         if (parsedObj.default) {
             defaultProject = key;
         }
     }
-    // console.log(projectList);
-    return { projectList, defaultProject };
+    return { projectList
+            ,defaultProject 
+    };
 }
 
 export function loadTasks(projectName) {
