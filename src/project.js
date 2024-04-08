@@ -16,11 +16,11 @@ export default class Project {
             taskData.isCompleted, 
             taskData.isImportant
             ));
-        }
+        };
         
     static getDefaultProject(projects) {
         return projects.filter(project => project.default);    
-    }
+    };
     
     // _init() {
     //     this._cacheDom();
@@ -35,7 +35,7 @@ export default class Project {
     
     _bindProjectEvents() {
         
-    }
+    };
     
     _renderProjects() {
         const projectNav = document.createElement('div');
@@ -45,13 +45,13 @@ export default class Project {
         
         const nav = document.querySelector('#nav');
         nav.appendChild(projectNav);
-    }
+    };
 
-    addProject() {}
+    addProject() {};
 
-    renameProject() {}
+    renameProject() {};
 
-    archiveProject() {}
+    archiveProject() {};
 
-    changeDefaultProject() {}
+    changeDefaultProject() {};
 }

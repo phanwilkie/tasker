@@ -7,9 +7,32 @@ export default class Task {
         this.dueDate = dueDate;
         this.isCompleted = isCompleted;
         this.isImportant = isImportant;
-    }
+    };
 
-    //todo add some methods
+    _bindTaskEvents() {};
+
+    _cacheTaskElements() {
+        this.taskElement = document.createElement('div');
+        this.taskElement.classList.add('task');
+        this.taskElement.textContent = this.title;
+    };
+
+    _renderTasks(project) {
+        //start with task name first
+        if (!this.taskElement) {
+            this._cacheTaskElements();
+        }
+
+        const taskContainer = document.querySelector('#tasklist');
+        taskContainer.appendChild(this.taskElement)
+    };
+
+    addTask() {};
+    editTask() {};
+    deleteTask() {};
+    reassignTaskProject() {};
+    completeTask() {};
+    markImportantTask() {};
 }
 
 

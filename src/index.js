@@ -90,23 +90,51 @@ storeProject('project2', project2);
     });
 
     //FIND THE DEFAULT PROJECT AND APPEND NAV-ITEM CLASS WITH SELECTED
-    const defaultProject = Project.getDefaultProject(projectList);    
-    defaultProject.forEach(project => {
-        const navItems = document.querySelectorAll('.nav-item');
+    const defaultProjectName = Project.getDefaultProject(projectList)[0].name;    
+    const navItems = document.querySelectorAll('.nav-item');
 
-        for (let i = 0; i < navItems.length; i++) {
-            if (project.name === navItems[i].textContent) {
-                navItems[i].className = `${navItems[i].className} selected`;
-            }
+    for (let i = 0; i < navItems.length; i++) {
+        if (defaultProjectName === navItems[i].textContent) {
+            navItems[i].className = `${navItems[i].className} selected`;
         }
-    })
+    }
+
 
     //RENDER THE DEFAULT TASKS ON #TASK DIV
-    
+    //For a given project name
+    //Render task on screen
 
     //INITIALISE FORMS
     addProject();
 })();
 
-//todo add form when adding new project
 //todo add form when creating/editing task
+
+//TESTING
+// function getProjects() {
+//     let projectList = [];
+//     let defaultProject = '';
+    
+//     for (let i = 0; i < localStorage.length; i++) {
+//         const key = localStorage.key(i);
+//         const stringObj = localStorage.getItem(key);
+//         const parsedObj = JSON.parse(stringObj);
+//         projectList.push(parsedObj);
+        
+//         if (parsedObj.default) {
+//             defaultProject = key;
+//         }
+//     }
+//     return { projectList
+//             ,defaultProject 
+//     };
+// }
+
+// const projectData = getProjects();
+// const projectList = projectData.projectList;
+
+// function getDefaultProject(projects) {
+//     return projects.filter(project => project.default);    
+// };
+
+// getDefaultProject(projectList);
