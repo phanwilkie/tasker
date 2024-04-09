@@ -78,7 +78,7 @@ body
 
 .task {
     display: grid;
-    grid-template-columns: 8fr 1.5fr 1fr;
+    grid-template-columns: 1fr 1fr 5fr 2fr 1fr;
     grid-template-rows: repeat(auto-fill, minmax(30px, auto));
     align-items: center;
     gap: 5px;

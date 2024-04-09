@@ -10,7 +10,7 @@ export default class Project {
         this.default = defaultProject;
         this.isActive = isActive;
         this.task =  taskData.map(taskData => new Task(
-            taskData.name, 
+            taskData.title, 
             taskData.description, 
             taskData.dueDate, 
             taskData.isCompleted, 

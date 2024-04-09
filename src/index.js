@@ -103,7 +103,8 @@ storeProject('project2', project2);
     //RENDER THE DEFAULT TASKS ON #TASK DIV
     const taskList = defaultProject.task;
     taskList.forEach(task => {
-        const taskInstance = new Task(task.description, 
+        const taskInstance = new Task(task.title,
+                                      task.description, 
                                       task.dueDate, 
                                       task.isCompleted, 
                                       task.isImportant);
