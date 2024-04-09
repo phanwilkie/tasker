@@ -90,6 +90,7 @@ storeProject('project2', project2);
     });
 
     //FIND THE DEFAULT PROJECT AND APPEND NAV-ITEM CLASS WITH SELECTED
+    const defaultProject = Project.getDefaultProject(projectList)[0];
     const defaultProjectName = Project.getDefaultProject(projectList)[0].name;    
     const navItems = document.querySelectorAll('.nav-item');
 
@@ -99,16 +100,19 @@ storeProject('project2', project2);
         }
     }
 
-
     //RENDER THE DEFAULT TASKS ON #TASK DIV
-    //For a given project name
-    //Render task on screen
+    const taskList = defaultProject.task;
+    taskList.forEach(task => {
+        const taskInstance = new Task(task.description, 
+                                      task.dueDate, 
+                                      task.isCompleted, 
+                                      task.isImportant);
+        taskInstance._renderTasks();
+    })
 
     //INITIALISE FORMS
     addProject();
 })();
-
-//todo add form when creating/editing task
 
 //TESTING
 // function getProjects() {

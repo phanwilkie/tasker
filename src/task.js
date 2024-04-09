@@ -1,6 +1,8 @@
 import { compareAsc, format } from "date-fns";
 
 export default class Task {
+    static taskListContainer = 'tasklist';
+
     constructor (title, description, dueDate, isCompleted, isImportant) {
         this.title = title;
         this.description = description;
@@ -18,13 +20,11 @@ export default class Task {
     };
 
     _renderTasks(project) {
-        //start with task name first
+        const taskListContainer = document.getElementById(Task.taskListContainer);
         if (!this.taskElement) {
             this._cacheTaskElements();
         }
-
-        const taskContainer = document.querySelector('#tasklist');
-        taskContainer.appendChild(this.taskElement)
+        taskListContainer.appendChild(this.taskElement);
     };
 
     addTask() {};
