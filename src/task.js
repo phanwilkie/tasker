@@ -14,6 +14,7 @@ export default class Task {
     _bindTaskEvents() {};
     
     _renderTasks() {
+        //PUBSUB
         const taskListContainer = document.getElementById(Task.taskListContainer);
 
         const taskParentDiv = document.createElement('div');
@@ -44,6 +45,7 @@ export default class Task {
 
                 const taskOptionButton = document.createElement('button');
                 taskOptionButton.textContent = '...';
+                
                 taskOptionDiv.appendChild(taskOptionButton);
     };
 

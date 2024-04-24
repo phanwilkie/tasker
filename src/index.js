@@ -4,8 +4,10 @@ import { compareAsc, format } from "date-fns";
 import Project from './project.js';
 import Task from "./task";
 import getProjects, { loadTasks, storeProject } from './localstorage.js';
-import { addProject, renderProjectForm, saveProjectForm } from './form-project.js';
+import { showNewProjectForm, renderProjectForm, saveProjectForm } from './form-project.js';
+import PubSub from './pubsub.js';
 
+//POPULATE SOME DUMMY DATA
 let project1 = new Project('project1','Default', true, true, [
     {
         title: 'Task 1',
@@ -85,7 +87,7 @@ storeProject('project2', project2);
             projectData.default,
             projectData.isActive,
             projectData.task
-        );        
+        );
         project._renderProjects();
     });
 
@@ -110,10 +112,19 @@ storeProject('project2', project2);
                                       task.isImportant);
         taskInstance._renderTasks();
     })
+    //INITIALISE PUBSUB
+    Project.subscribeToProjectAdded();
 
     //INITIALISE FORMS
-    addProject();
+    showNewProjectForm();
+    
+    //TODO replace this function with the method of the Project class
+    //TODO to initialise the New Project button
+    //TODO interface through the Class
 })();
+
+
+
 
 //TESTING
 // function getProjects() {

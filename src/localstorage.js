@@ -1,3 +1,18 @@
+import { addNewProject } from './form-project';
+import pubsub from './pubsub.js';
+
+// pubsub.subscribe('projectAdded', storeProject);
+pubsub.subscribe('projectAdded', (project) => {
+    const key = generateGUID();
+    storeProject(key, project);
+  });
+
+function generateGUID() {
+    const now = new Date();
+    const randomPart = Math.floor(Math.random() * 10000);
+    const guid = `${now.getUTCMilliseconds()}${now.getUTCMonth()}${now.getUTCFullYear()}${randomPart}`;
+    return guid;
+  }
 
 export function storeProject(key, obj) {
     localStorage.setItem(key, JSON.stringify(obj));
