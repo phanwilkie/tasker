@@ -1,6 +1,6 @@
 import { compareAsc, format } from "date-fns";
 import Task from "./task";
-import {showNewProjectForm, renderProjectForm } from "./form-project.js"
+import {showNewProjectForm, renderProjectForm, showEditProjectForm} from "./form-project.js"
 // import getProjects, { loadTasks, storeProject } from './localstorage.js';
 import pubsub from './pubsub.js';
 
@@ -42,15 +42,28 @@ export default class Project {
     
     _renderProjects() {
         const nav = document.querySelector('#nav');
-        const projectNav = document.createElement('div');
-        projectNav.textContent = this.name;
-        projectNav.className = 'nav-item';        
-        nav.appendChild(projectNav);
+        const navDiv = document.createElement('div');
+        navDiv.className = 'nav-item';
+        nav.appendChild(navDiv);
+
+            const projectNameDiv = document.createElement('div');
+            projectNameDiv.className = 'nav-name';
+            projectNameDiv.textContent = this.name;
+            navDiv.appendChild(projectNameDiv);
+
+            const projectOptionDiv = document.createElement('div');
+            projectOptionDiv.className = 'nav-option'
+            navDiv.appendChild(projectOptionDiv);
+
+                const btnProjectOption = document.createElement('button');
+                btnProjectOption.textContent = '...';
+                btnProjectOption.className = 'btn-project-edit';
+                btnProjectOption.addEventListener('click', () => this.editProject());
+                projectOptionDiv.appendChild(btnProjectOption);
     };
 
-    renameProject() {
-        //TODO have this method call add project form
-        //call the projectform with 'this'
+    editProject() {
+        showEditProjectForm(this.name);
     };
 
     archiveProject() {};

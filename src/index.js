@@ -94,7 +94,7 @@ storeProject('project2', project2);
     //FIND THE DEFAULT PROJECT AND APPEND NAV-ITEM CLASS WITH SELECTED
     const defaultProject = Project.getDefaultProject(projectList)[0];
     const defaultProjectName = Project.getDefaultProject(projectList)[0].name;    
-    const navItems = document.querySelectorAll('.nav-item');
+    const navItems = document.querySelectorAll('.nav-name');
 
     for (let i = 0; i < navItems.length; i++) {
         if (defaultProjectName === navItems[i].textContent) {
@@ -117,10 +117,6 @@ storeProject('project2', project2);
 
     //INITIALISE FORMS
     showNewProjectForm();
-    
-    //TODO replace this function with the method of the Project class
-    //TODO to initialise the New Project button
-    //TODO interface through the Class
 })();
 
 

@@ -49,6 +49,16 @@ body
     gap: 10px;
 }
 
+.nav-item {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+
+.nav-item:has(.selected) {
+    text-decoration: underline;
+}
+
+
 .new-project {
     /* text-align: right; */
 }

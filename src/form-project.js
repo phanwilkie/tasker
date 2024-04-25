@@ -6,50 +6,19 @@ import Project from './project.js';
 import pubsub from './pubsub.js';
 
 
-export function showNewProjectForm() {
+export function showNewProjectForm(projectName = '') {
     const btnNewProject = document.querySelector('#btn-new-project');
-    btnNewProject.addEventListener('click', addNewProject);
-}
-
-export function addNewProject() {
-    renderProjectForm();
-    
-    const fieldProject = document.querySelector('#project-name');
-    const btnSaveProject = document.querySelector('#btn-save-project');
-    btnSaveProject.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (fieldProject.value.trim() !== '') {
-            const newProject = new Project(
-                fieldProject.value.trim(), 
-                fieldProject.value.trim(), 
-                false, //DEFAULT STATUS
-                true,
-                []
-            );
-            fieldProject.value = '';
-            // newProject._renderProjects();
-            pubsub.publish('projectAdded', newProject);
-            //TODO save to local or emit it to pubsub
-            // pubsub.publish('newProject', newProject);
-
-            closeProjectModal();
-        }
+    btnNewProject.addEventListener('click', () => {
+        renderProjectForm('create', projectName);
     })
-
-
 }
-//edit project
-
-
 
 function closeProjectModal() {
     const newProjectModal = document.querySelector('#new-project-modal');
     newProjectModal.style.display = 'none';
 };
 
-export function renderProjectForm() {
-    //TODO figure out how to make this function load existing using argument
-
+export function renderProjectForm(mode = 'create', projectName = '') {
     //RENDER MODAL
     const newProjectModal = document.querySelector('#new-project-modal');
     newProjectModal.style.display = 'block';
@@ -57,19 +26,47 @@ export function renderProjectForm() {
     //CLOSE MODAL INTERACTION
     const btnCloseProjectModal = document.querySelector('#close-modal-project');
     const btnCancelProjectModal = document.querySelector("#btn-cancel-project");
-
-    
     btnCloseProjectModal.addEventListener('click', closeProjectModal);
     btnCancelProjectModal.addEventListener('click', closeProjectModal);
+    
+    const projectForm = document.querySelector('#form-add-project');
+    projectForm.setAttribute('data-mode', mode);
+    
+    const projectNameInput = document.querySelector('#project-name');
+    projectNameInput.value = projectName;
+    
+    const btnSaveProject = document.querySelector('#btn-save-project');
+    btnSaveProject.textContent = mode === 'create' ? 'Save' : 'Save Changes';
+    
+    projectForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        // Handle form submission based on mode
+        if (mode === 'create') {
+            addNewProject(projectNameInput.value.trim());
+        } 
+        else {
+            updateProject(projectNameInput.value.trim());
+        }
+    });
 }
 
+function addNewProject(projectName) {
+    if (projectName !== '') {
+        const newProject = new Project(
+            projectName, 
+            projectName, 
+            false, //DEFAULT STATUS
+            true,
+            []
+        );
+        pubsub.publish('projectAdded', newProject);
+        closeProjectModal()
+    }
+}
 
-export function updateProject() {
+function updateProject(projectName) {
+    // renderProjectForm(projectName ? 'edit' : 'create', projectName);
     //use class constructor if new
     //save this to local storage
 
 }
-
-
-
-//notify pubsub
