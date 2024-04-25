@@ -1,6 +1,6 @@
 import { compareAsc, format } from "date-fns";
 import Task from "./task";
-import {showNewProjectForm, renderProjectForm, showEditProjectForm} from "./form-project.js"
+import {showNewProjectForm, renderNewProjectForm, renderEditProjectForm, showEditProjectForm} from "./form-project.js"
 // import getProjects, { loadTasks, storeProject } from './localstorage.js';
 import pubsub from './pubsub.js';
 
@@ -24,18 +24,39 @@ export default class Project {
         return projects.filter(project => project.default);    
     };
 
-    static subscribeToProjectAdded() {
+    static subscribeToProjectChanges() {
         pubsub.subscribe('projectAdded', Project.handleProjectAdded);
+        pubsub.subscribe('projectUpdated', Project.handleProjectUpdated);
+        // pubsub.subscribe('projectAdded', projectInstance.handleProjectAdded.bind(projectInstance));
+        // pubsub.subscribe('projectUpdated', projectInstance.handleProjectUpdated.bind(projectInstance));
     }
 
     static handleProjectAdded(project) {
         project._renderProjects();
     }
+
+    //TODO OLDNAME LINKED TO PREVIOUS OBJECT ON SUBSEQUENT UPDATE
+    //TODO NOT SURE WHY, MIGHT NEED TO CLEAR IT SOMEHOW
+    //TODO MIGHT BE WHAT'S CAUSING PROBLEM
+    static handleProjectUpdated({ oldName, updatedProject }) {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(navItem => {
+            const navName = navItem.querySelector('.nav-name');
+            if (navName.textContent === oldName) {
+                console.log('handleProjectUpdated / project.js - old name: ' + oldName);
+
+                navName.textContent = updatedProject.name;
+                console.log('handleProjectUpdated / project.js - new name: ' + navName.textContent);
+                console.log('-------------');
+
+            }
+        });
+    }
     
     _bindProjectEvents() {
         //new project button
         const btnNewProject = document.querySelector('#btn-new-project');
-        btnNewProject.addEventListener('click', renderProjectForm);
+        btnNewProject.addEventListener('click', renderNewProjectForm);
         
         //edit interaction for each project in the nav
     };
@@ -59,18 +80,12 @@ export default class Project {
                 btnProjectOption.textContent = '...';
                 btnProjectOption.className = 'btn-project-edit';
                 btnProjectOption.addEventListener('click', () => {
-                    renderProjectForm('edit', this.name);
+                    renderEditProjectForm(this);
+                    // console.log('_renderProjects() / project.js');
+                    // console.log(this);
                 })
                 projectOptionDiv.appendChild(btnProjectOption);
     };
-
-    // editProject() {
-    //     showEditProjectForm(this.name);
-
-    //     //call the renderProjectForm with edit mode instead 
-    //     //and use this as the projectname
-
-    // };
 
     archiveProject() {};
 

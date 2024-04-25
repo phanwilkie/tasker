@@ -18,6 +18,10 @@ export function storeProject(key, obj) {
     localStorage.setItem(key, JSON.stringify(obj));
 }
 
+function updateProject(key, ob) {
+    
+}
+
 export default function getProjects() {
     let projectList = [];
     let defaultProject = '';

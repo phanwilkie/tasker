@@ -113,7 +113,7 @@ storeProject('project2', project2);
         taskInstance._renderTasks();
     })
     //INITIALISE PUBSUB
-    Project.subscribeToProjectAdded();
+    Project.subscribeToProjectChanges();
 
     //INITIALISE FORMS
     showNewProjectForm();
