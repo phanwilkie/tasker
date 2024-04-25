@@ -36,7 +36,9 @@ export function renderProjectForm(mode = 'create', projectName = '') {
     projectNameInput.value = projectName;
     
     const btnSaveProject = document.querySelector('#btn-save-project');
+    const modalTitle = document.querySelector('#modal-project-title');
     btnSaveProject.textContent = mode === 'create' ? 'Save' : 'Save Changes';
+    modalTitle.textContent = mode === 'create' ? 'Add new project' : 'Modify project';
     
     projectForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -68,5 +70,5 @@ function updateProject(projectName) {
     // renderProjectForm(projectName ? 'edit' : 'create', projectName);
     //use class constructor if new
     //save this to local storage
-
+    pubsub.publish('projectChanged', updatedProject);
 }

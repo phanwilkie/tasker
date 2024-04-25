@@ -58,13 +58,19 @@ export default class Project {
                 const btnProjectOption = document.createElement('button');
                 btnProjectOption.textContent = '...';
                 btnProjectOption.className = 'btn-project-edit';
-                btnProjectOption.addEventListener('click', () => this.editProject());
+                btnProjectOption.addEventListener('click', () => {
+                    renderProjectForm('edit', this.name);
+                })
                 projectOptionDiv.appendChild(btnProjectOption);
     };
 
-    editProject() {
-        showEditProjectForm(this.name);
-    };
+    // editProject() {
+    //     showEditProjectForm(this.name);
+
+    //     //call the renderProjectForm with edit mode instead 
+    //     //and use this as the projectname
+
+    // };
 
     archiveProject() {};
 
