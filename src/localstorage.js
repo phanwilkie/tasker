@@ -7,6 +7,10 @@ pubsub.subscribe('projectAdded', (project) => {
     storeProject(key, project);
   });
 
+pubsub.subscribe('projectUpdated', ({ oldName, updatedProject }) => {
+    updateProject(oldName, updatedProject);
+});
+
 function generateGUID() {
     const now = new Date();
     const randomPart = Math.floor(Math.random() * 10000);
@@ -18,9 +22,18 @@ export function storeProject(key, obj) {
     localStorage.setItem(key, JSON.stringify(obj));
 }
 
-function updateProject(key, ob) {
-    
+function updateProject(oldName, updatedProject) {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const project = JSON.parse(localStorage.getItem(key));
+
+        if (project.name === oldName) {
+            localStorage.setItem(key, JSON.stringify(updatedProject));
+            break;
+        }
+    }
 }
+
 
 export default function getProjects() {
     let projectList = [];
