@@ -51,6 +51,7 @@ export function renderNewProjectForm() {
         const newName = projectNameInput.value.trim();
         if (isProjectNameUnique(newName)) { // Check for uniqueness
             addNewProject(newName);
+            // projectNameInput.value = '';
             projectForm.removeEventListener('submit', handleFormSubmit); // Remove event listener
         } else {
             alert('Project name must be unique.');
@@ -71,6 +72,7 @@ export function renderEditProjectForm(project) {
         const newName = projectNameInput.value.trim();
         if (isProjectNameUnique(newName) || newName.toLowerCase() === project.name.toLowerCase()) { // Check for uniqueness
             updateProject(project, newName);
+            // projectNameInput.value = '';
             projectForm.removeEventListener('submit', handleFormSubmit); // Remove event listener
         } else {
             alert('Project name must be unique.');

@@ -3,8 +3,8 @@ import { compareAsc, format } from "date-fns";
 
 import Project from './project.js';
 import Task from "./task";
-import getProjects, { loadTasks, storeProject } from './localstorage.js';
-import { showNewProjectForm, renderProjectForm, saveProjectForm } from './form-project.js';
+import getProjects, { loadTasks, storeProject, generateGUID } from './localstorage.js';
+import { showNewProjectForm, renderNewProjectForm, renderEditProjectForm } from './form-project.js';
 import PubSub from './pubsub.js';
 
 //POPULATE SOME DUMMY DATA
@@ -71,8 +71,10 @@ let project2 = new Project('project2', 'House Chores', false, true, [
 );
 
 localStorage.clear();
-storeProject('project1', project1);
-storeProject('project2', project2);
+let guid1 = generateGUID();
+let guid2 = generateGUID();
+storeProject(guid1, project1);
+storeProject(guid2, project2);
 
 //INITIALISE THE PAGE BY PREPOPULATING DATA FROM LOCALSTORAGE
 //BY CALLING THE RENDER METHOD WITHIN PROJECT CLASS

@@ -11,7 +11,7 @@ pubsub.subscribe('projectUpdated', ({ oldName, updatedProject }) => {
     updateProject(oldName, updatedProject);
 });
 
-function generateGUID() {
+export function generateGUID() {
     const now = new Date();
     const randomPart = Math.floor(Math.random() * 10000);
     const guid = `${now.getUTCMilliseconds()}${now.getUTCMonth()}${now.getUTCFullYear()}${randomPart}`;
