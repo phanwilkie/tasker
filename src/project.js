@@ -1,7 +1,6 @@
 import { compareAsc, format } from "date-fns";
 import Task from "./task";
 import {showNewProjectForm, renderNewProjectForm, renderEditProjectForm, showEditProjectForm} from "./form-project.js"
-// import getProjects, { loadTasks, storeProject } from './localstorage.js';
 import pubsub from './pubsub.js';
 
 export default class Project {
@@ -27,28 +26,28 @@ export default class Project {
     static subscribeToProjectChanges() {
         pubsub.subscribe('projectAdded', Project.handleProjectAdded);
         pubsub.subscribe('projectUpdated', Project.handleProjectUpdated);
-        // pubsub.subscribe('projectAdded', projectInstance.handleProjectAdded.bind(projectInstance));
-        // pubsub.subscribe('projectUpdated', projectInstance.handleProjectUpdated.bind(projectInstance));
+        pubsub.subscribe('projectDeleted', Project.handleProjectDeleted);
     }
 
     static handleProjectAdded(project) {
         project._renderProjects();
     }
 
-    //TODO OLDNAME LINKED TO PREVIOUS OBJECT ON SUBSEQUENT UPDATE
-    //TODO NOT SURE WHY, MIGHT NEED TO CLEAR IT SOMEHOW
-    //TODO MIGHT BE WHAT'S CAUSING PROBLEM
     static handleProjectUpdated({ oldName, updatedProject }) {
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(navItem => {
             const navName = navItem.querySelector('.nav-name');
             if (navName.textContent === oldName) {
-                console.log('handleProjectUpdated / project.js - old name: ' + oldName);
-
                 navName.textContent = updatedProject.name;
-                console.log('handleProjectUpdated / project.js - new name: ' + navName.textContent);
-                console.log('-------------');
+            }
+        });
+    }
 
+    static handleProjectDeleted(projectName) {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(navItem => {
+            if (navItem.getAttribute('data-project-name') === projectName) {
+                navItem.remove();
             }
         });
     }
@@ -65,6 +64,7 @@ export default class Project {
         const nav = document.querySelector('#nav');
         const navDiv = document.createElement('div');
         navDiv.className = 'nav-item';
+        navDiv.setAttribute('data-project-name', this.name);
         nav.appendChild(navDiv);
 
             const projectNameDiv = document.createElement('div');
@@ -81,8 +81,6 @@ export default class Project {
                 btnProjectOption.className = 'btn-project-edit';
                 btnProjectOption.addEventListener('click', () => {
                     renderEditProjectForm(this);
-                    // console.log('_renderProjects() / project.js');
-                    // console.log(this);
                 })
                 projectOptionDiv.appendChild(btnProjectOption);
     };

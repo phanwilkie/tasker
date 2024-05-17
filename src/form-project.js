@@ -1,7 +1,6 @@
-//TODO PREVENT DUPLICATE PROJECT NAME
-
 import Project from './project.js';
 import pubsub from './pubsub.js';
+import getProjects from './localstorage.js';
 
 export function showNewProjectForm() {
     const btnNewProject = document.querySelector('#btn-new-project');
@@ -28,18 +27,19 @@ function setupModalElements() {
     const projectForm = document.querySelector('#form-add-project');    
     const projectNameInput = document.querySelector('#project-name');
     const btnSaveProject = document.querySelector('#btn-save-project');
+    const btnDeleteProject = document.querySelector('#btn-delete-project');
     const modalTitle = document.querySelector('#modal-project-title');
 
     return {
         projectForm,
         projectNameInput,
         btnSaveProject,
+        btnDeleteProject,
         modalTitle
     };
 }
 
 export function renderNewProjectForm() {
-
     const { projectForm, projectNameInput, btnSaveProject, modalTitle } = setupModalElements();
 
     modalTitle.textContent = 'Add new project';
@@ -49,19 +49,18 @@ export function renderNewProjectForm() {
     function handleFormSubmit(event) {
         event.preventDefault();
         const newName = projectNameInput.value.trim();
-        addNewProject(newName);
-
-        // Remove event listener after form submission
-        projectForm.removeEventListener('submit', handleFormSubmit);
+        if (isProjectNameUnique(newName)) { // Check for uniqueness
+            addNewProject(newName);
+            projectForm.removeEventListener('submit', handleFormSubmit); // Remove event listener
+        } else {
+            alert('Project name must be unique.');
+        }
     }
 
-    projectForm.addEventListener('submit', handleFormSubmit);
-
+    projectForm.addEventListener('submit', handleFormSubmit); // Add event listener
 }
-
 export function renderEditProjectForm(project) {
-    const { projectForm, projectNameInput, btnSaveProject, modalTitle } = setupModalElements();
-
+    const { projectForm, projectNameInput, btnSaveProject, btnDeleteProject, modalTitle } = setupModalElements();
 
     modalTitle.textContent = 'Update project';
     projectNameInput.value = project.name;
@@ -70,12 +69,22 @@ export function renderEditProjectForm(project) {
     function handleFormSubmit(event) {
         event.preventDefault();
         const newName = projectNameInput.value.trim();
-        updateProject(project, newName);
-
-        // Remove event listener after form submission
-        projectForm.removeEventListener('submit', handleFormSubmit);
+        if (isProjectNameUnique(newName) || newName.toLowerCase() === project.name.toLowerCase()) { // Check for uniqueness
+            updateProject(project, newName);
+            projectForm.removeEventListener('submit', handleFormSubmit); // Remove event listener
+        } else {
+            alert('Project name must be unique.');
+        }
     }
-    projectForm.addEventListener('submit', handleFormSubmit);
+
+    function handleDeleteClick(event) { // Delete project handler
+        event.preventDefault();
+        deleteProject(project);
+        btnDeleteProject.removeEventListener('click', handleDeleteClick); // Remove event listener
+    }
+
+    projectForm.addEventListener('submit', handleFormSubmit); // Add event listener
+    btnDeleteProject.addEventListener('click', handleDeleteClick); // Add event listener
 }
 
 function addNewProject(projectName) {
@@ -88,7 +97,7 @@ function addNewProject(projectName) {
             []
         );
         pubsub.publish('projectAdded', newProject);
-        closeProjectModal()
+        closeProjectModal();
     }
 }
 
@@ -104,4 +113,15 @@ function updateProject(project, newName) {
 
     pubsub.publish('projectUpdated', { oldName, updatedProject });
     closeProjectModal();
+}
+
+function deleteProject(project) {
+    const projectName = project.name;
+    pubsub.publish('projectDeleted', projectName);
+    closeProjectModal();
+}
+
+function isProjectNameUnique(projectName) {
+    const { projectList } = getProjects();
+    return !projectList.some(project => project.name.toLowerCase() === projectName.toLowerCase());
 }

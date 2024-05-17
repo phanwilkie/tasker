@@ -34,6 +34,16 @@ function updateProject(oldName, updatedProject) {
     }
 }
 
+pubsub.subscribe('projectDeleted', (projectName) => {
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const storedProject = JSON.parse(localStorage.getItem(key));
+        if (storedProject.name === projectName) {
+            localStorage.removeItem(key);
+            break;
+        }
+    }
+});
 
 export default function getProjects() {
     let projectList = [];
