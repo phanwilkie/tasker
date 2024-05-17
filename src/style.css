@@ -132,9 +132,9 @@ body
     color: black;
 }
 
-/* .form-inputs {
-    width: 100%;
-} */
+.form-inputs {
+    display: flex;
+}
 
 #project-name {
     box-sizing: border-box;

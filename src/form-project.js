@@ -16,11 +16,7 @@ function closeProjectModal() {
     projectNameInput.value = '';
 };
 
-
-//TODO REMOTE REPETITION OF DOMS VARIABLES
-
-export function renderNewProjectForm() {
-    //RENDER MODAL
+function setupModalElements() {
     const newProjectModal = document.querySelector('#new-project-modal');
     newProjectModal.style.display = 'block';
 
@@ -31,9 +27,20 @@ export function renderNewProjectForm() {
     
     const projectForm = document.querySelector('#form-add-project');    
     const projectNameInput = document.querySelector('#project-name');
-
     const btnSaveProject = document.querySelector('#btn-save-project');
     const modalTitle = document.querySelector('#modal-project-title');
+
+    return {
+        projectForm,
+        projectNameInput,
+        btnSaveProject,
+        modalTitle
+    };
+}
+
+export function renderNewProjectForm() {
+
+    const { projectForm, projectNameInput, btnSaveProject, modalTitle } = setupModalElements();
 
     modalTitle.textContent = 'Add new project';
     projectNameInput.value = '';
@@ -53,21 +60,8 @@ export function renderNewProjectForm() {
 }
 
 export function renderEditProjectForm(project) {
-    console.log(project);
+    const { projectForm, projectNameInput, btnSaveProject, modalTitle } = setupModalElements();
 
-    const newProjectModal = document.querySelector('#new-project-modal');
-    newProjectModal.style.display = 'block';
-
-    const btnCloseProjectModal = document.querySelector('#close-modal-project');
-    const btnCancelProjectModal = document.querySelector("#btn-cancel-project");
-    btnCloseProjectModal.addEventListener('click', closeProjectModal);
-    btnCancelProjectModal.addEventListener('click', closeProjectModal);
-    
-    const projectForm = document.querySelector('#form-add-project');    
-    const projectNameInput = document.querySelector('#project-name');
-
-    const btnSaveProject = document.querySelector('#btn-save-project');
-    const modalTitle = document.querySelector('#modal-project-title');
 
     modalTitle.textContent = 'Update project';
     projectNameInput.value = project.name;
